@@ -8,6 +8,7 @@
 using namespace std;
 bool running = true;
 int maxQueueSize = 10;
+int tableSize = 7;
 
 vector<Student> men, tables, women;
 
@@ -46,29 +47,52 @@ void refreshScreen()
     }
 }
 
+void joinToTables() {
+
+}
+
 // Generate students.
-void generateIndexes() {
+void generateMenIndexes() {
     while (running) {
         if (men.size() < maxQueueSize) {
             men.push_back(Student(true));
         }
+        this_thread::sleep_for(std::chrono::milliseconds(rand()%2000 + 1000));
+    }
+}
+
+void generateWomenIndexes() {
+    while (running) {
         if (women.size() < maxQueueSize) {
             women.push_back(Student(false));
         }
+        this_thread::sleep_for(std::chrono::milliseconds(rand()%2000 + 1000));
+
+    }
+}
+
+// Execute once.
+void generateTables() {
+    for (int i = 0; i < tableSize; ++i) {
+
     }
 }
 
 int main()
 {
     cout << "Spawning 3 threads...\n";
-    thread t1(refreshScreen);
-    thread t2(getInput);
-    //thread finisher();
-    thread generator(generateIndexes);
+    thread drawer(refreshScreen);
+    thread finisher(getInput);
+
+    thread menGenerator(generateMenIndexes);
+    thread womenGenerator(generateWomenIndexes);
+
+
     //all threads join here
-    t1.join();
-    t2.join();
-    generator.join();
+    drawer.join();
+    finisher.join();
+    menGenerator.join();
+    womenGenerator.join();
 
     cout << "Leaving...";
 }
