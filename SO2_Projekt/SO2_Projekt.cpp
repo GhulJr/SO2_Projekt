@@ -2,18 +2,19 @@
 #include <mutex>
 #include <thread>
 #include <vector>
+#include "Student.cpp"
+#include "Table.cpp"
+
 using namespace std;
 bool running = true;
+int maxQueueSize = 10;
 
-vector<int> men = { 1,1,2 };
-vector<int> tables = { 1,1,1,1,1,1,1,1,1,1 };
-vector<int> women = { 1,1,1,1 };
+vector<Student> men, tables, women;
 
 void getInput() {
     getchar();
     running = false;
 }
-
 
 void refreshScreen()
 {
@@ -45,15 +46,29 @@ void refreshScreen()
     }
 }
 
+// Generate students.
+void generateIndexes() {
+    while (running) {
+        if (men.size() < maxQueueSize) {
+            men.push_back(Student(true));
+        }
+        if (women.size() < maxQueueSize) {
+            women.push_back(Student(false));
+        }
+    }
+}
+
 int main()
 {
-    std::cout << "Spawning 3 threads...\n";
-    std::thread t1(refreshScreen);
-    std::thread t2(getInput);
-
+    cout << "Spawning 3 threads...\n";
+    thread t1(refreshScreen);
+    thread t2(getInput);
+    //thread finisher();
+    thread generator(generateIndexes);
     //all threads join here
     t1.join();
     t2.join();
+    generator.join();
 
     cout << "Leaving...";
 }
