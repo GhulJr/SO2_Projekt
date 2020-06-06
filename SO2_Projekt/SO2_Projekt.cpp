@@ -1,9 +1,11 @@
-﻿#include <iostream>
+﻿#pragma once
+#include <iostream>
 #include <mutex>
 #include <thread>
 #include <vector>
 #include "Student.cpp"
 #include "Table.cpp"
+#include "Finder.cpp"
 
 using namespace std;
 bool running = true;
@@ -52,7 +54,7 @@ void refreshScreen()
 void generateMenIndexes() {
     while (running) {
         if (men.size() < maxQueueSize) {
-            men.push_back(Student(true, *tables));
+            men.push_back(Student(true/*, *tables*/));
         }
         this_thread::sleep_for(std::chrono::milliseconds(rand()%2000 + 1000));
     }
@@ -61,7 +63,7 @@ void generateMenIndexes() {
 void generateWomenIndexes() {
     while (running) {
         if (women.size() < maxQueueSize) {
-            women.push_back(Student(false, *tables));
+            women.push_back(Student(false/*, *tables*/));
         }
         this_thread::sleep_for(std::chrono::milliseconds(rand()%2000 + 1000));
     }
@@ -96,4 +98,6 @@ int main()
     womenGenerator.join();
 
     cout << "Leaving...";
+
+   // Finder finder(NULL, NULL, NULL);
 }

@@ -5,14 +5,14 @@
 
 struct Table {
 	int id;
-	Student* man;
-	Student* woman;
+	Student *man;
+	Student *woman;
 
 	Table(int id) {
 		srand(time(NULL));
 		this->id = id;
-		//this->man = NULL;
-		//this->woman = NULL;
+		this->man = NULL;
+		this->woman = NULL;
 	}
 
 	bool isManSpotFree() {
