@@ -1,6 +1,9 @@
 #pragma once
 #include <time.h>
 #include <cstdlib>
+#include <vector>
+#include <thread>
+#include "Table.cpp"
 
 struct Student {
 	int index;
@@ -8,9 +11,12 @@ struct Student {
 	int pair_estimation;
 	bool gender; //True - studentka, false - student.
 
-	Student(bool gender) {
+	std::vector<Table> tables;
+
+	Student(bool gender, std::vector<Table> tables) {
 		srand(time(NULL));
 		this->gender = gender;
+		this->tables = tables;
 		if (gender) {
 			moduloFactor = 3;
 			moduloAddjustment = 7;

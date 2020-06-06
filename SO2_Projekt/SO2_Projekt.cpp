@@ -10,7 +10,8 @@ bool running = true;
 int maxQueueSize = 10;
 int tableSize = 7;
 
-vector<Student> men, tables, women;
+vector<Student> men, women;
+vector<Table>* tables;
 
 void getInput() {
     getchar();
@@ -27,7 +28,7 @@ void refreshScreen()
         }
         cout << endl << "Current size:" << men.size() << endl << endl;
 
-        for (int i = 0; i < tables.size(); i++)
+        for (int i = 0; i < tables->size(); i++)
         {
             cout << "|. .| ";
             if ((i + 1) % 4 == 0) {
@@ -47,15 +48,11 @@ void refreshScreen()
     }
 }
 
-void joinToTables() {
-
-}
-
 // Generate students.
 void generateMenIndexes() {
     while (running) {
         if (men.size() < maxQueueSize) {
-            men.push_back(Student(true));
+            men.push_back(Student(true, *tables));
         }
         this_thread::sleep_for(std::chrono::milliseconds(rand()%2000 + 1000));
     }
@@ -64,22 +61,26 @@ void generateMenIndexes() {
 void generateWomenIndexes() {
     while (running) {
         if (women.size() < maxQueueSize) {
-            women.push_back(Student(false));
+            women.push_back(Student(false, *tables));
         }
         this_thread::sleep_for(std::chrono::milliseconds(rand()%2000 + 1000));
-
     }
 }
 
 // Execute once.
 void generateTables() {
+    tables = new vector<Table>();
     for (int i = 0; i < tableSize; ++i) {
-
+        tables->push_back(Table(i));
     }
 }
 
 int main()
 {
+    // Init tables.
+    generateTables();
+
+    // Init threads.
     cout << "Spawning 3 threads...\n";
     thread drawer(refreshScreen);
     thread finisher(getInput);
