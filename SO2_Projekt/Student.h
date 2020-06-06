@@ -18,9 +18,10 @@ struct Student {
 
 	Table* currentTable;
 	std::vector<Table>* tables;
-	std::mutex mtx;
+	//std::mutex mtx;
+	std::mutex* _myMutex;
 
-	Student(bool gender, bool * running, std::vector<Table>* tables);
+	Student(bool gender, bool * running, std::vector<Table>* tables, std::mutex* mutex);
 
 	void run();
 

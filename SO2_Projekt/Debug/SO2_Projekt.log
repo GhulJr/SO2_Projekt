@@ -1,49 +1,5 @@
-﻿  SO2_Projekt.cpp
-C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\SO2_Projekt.cpp(26,27): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\SO2_Projekt.cpp(32,27): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\SO2_Projekt.cpp(41,27): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\SO2_Projekt.cpp(55,24): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\SO2_Projekt.cpp(64,26): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\xmemory(671,1): error C2280: „Student::Student(const Student &)”: próba odwania do usuniętej funkcji
-C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\Student.h(34): message : w tym miejscu kompilator wygenerował „Student::Student”
-C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\Student.h(34,1): message : „Student::Student(const Student &)”: Funkcja została niejawnie usunięta, ponieważ element składowa danych wywołuje usuniętą lub niedostępną funkcję „std::mutex::mutex(const std::mutex &)”
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\mutex(92,5): message : „std::mutex::mutex(const std::mutex &)”: Funkcja została niejawnie usunięta
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\vector(683): message : zobacz odwołanie do kompilowanego tworzenia wystąpienia „void std::_Default_allocator_traits<_Alloc>::construct<_Ty,_Ty>(_Alloc &,_Objty *const ,_Ty &&)” funkcji szablon
-          with
-          [
-              _Alloc=std::allocator<Student>,
-              _Ty=Student,
-              _Objty=Student
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\vector(688): message : zobacz odwołanie do kompilowanego tworzenia wystąpienia „void std::_Default_allocator_traits<_Alloc>::construct<_Ty,_Ty>(_Alloc &,_Objty *const ,_Ty &&)” funkcji szablon
-          with
-          [
-              _Alloc=std::allocator<Student>,
-              _Ty=Student,
-              _Objty=Student
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\vector(701): message : zobacz odwołanie do kompilowanego tworzenia wystąpienia „void std::vector<Student,std::allocator<Student>>::_Emplace_back_with_unused_capacity<_Ty>(_Ty &&)” funkcji szablon
-          with
-          [
-              _Ty=Student
-          ]
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\vector(722): message : zobacz odwołanie do kompilowanego tworzenia wystąpienia „void std::vector<Student,std::allocator<Student>>::emplace_back<Student>(Student &&)” funkcji szablon
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\vector(721): message : podczas kompilowania funkcji składowej „void std::vector<Student,std::allocator<Student>>::push_back(_Ty &&)” klasy klasa szablon
-          with
-          [
-              _Ty=Student
-          ]
-C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\SO2_Projekt.cpp(56): message : zobacz odwołanie do kompilowanego tworzenia wystąpienia „void std::vector<Student,std::allocator<Student>>::push_back(_Ty &&)” funkcji szablon
-          with
-          [
-              _Ty=Student
-          ]
-C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\SO2_Projekt.cpp(14): message : zobacz odwołanie do kompilowanego tworzenia wystąpienia „std::vector<Student,std::allocator<Student>>” klasy klasa szablon
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\chrono(632): message : zobacz odwołanie do kompilowanego tworzenia wystąpienia „std::chrono::duration<double,std::ratio<1,1>>” klasy klasa szablon
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\chrono(178): message : zobacz odwołanie do kompilowanego tworzenia wystąpienia „std::chrono::duration<__int64,std::nano>” klasy klasa szablon
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314\include\chrono(610): message : zobacz odwołanie do kompilowanego tworzenia wystąpienia „std::chrono::time_point<std::chrono::steady_clock,std::chrono::nanoseconds>” klasy klasa szablon
-  Student.cpp
-C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\Student.cpp(14,21): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\Student.cpp(90,12): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
-C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\Student.cpp(106,30): error C3867: „Student::run”: niestandardowa składnia; użyj znaku „&”, aby utworzyć wskaźnik do składowej
-  Generowanie kodu...
+﻿  Student.cpp
+C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\Student.cpp(12,21): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\Student.cpp(83,34): warning C4101: "e": lokalna zmienna, do której nie istnieje odwołanie
+C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\Student.cpp(94,12): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
+  SO2_Projekt.vcxproj -> C:\Users\krzys\source\repos\SO2_Projekt\Debug\SO2_Projekt.exe

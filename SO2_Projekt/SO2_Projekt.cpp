@@ -14,6 +14,8 @@ int tableSize = 7;
 vector<Student> men, women;
 vector<Table>* tables;
 
+std::mutex* _myMutex;
+
 void getInput() {
     getchar();
     running = false;
@@ -31,7 +33,12 @@ void refreshScreen()
 
         for (int i = 0; i < tables->size(); i++)
         {
-            cout << "|. .| ";
+
+            char y = tables->at(i).isManSpotFree() ? '.' : 'y';
+            char x = tables->at(i).isWomanSpotFree() ? '.' : 'x';
+
+            cout << "|"<<y<<" "<<x<<"| ";
+
             if ((i + 1) % 4 == 0) {
                 cout << endl;
             }
@@ -52,18 +59,23 @@ void refreshScreen()
 // Generate students.
 void generateMenIndexes() {
     while (running) {
+        _myMutex->lock();
         if (men.size() < maxQueueSize) {
-            men.push_back(Student(false, &running, tables));
+            men.push_back(Student(false, &running, tables, _myMutex));
         }
+        _myMutex->unlock();
+
         this_thread::sleep_for(std::chrono::milliseconds(rand()%2000 + 1000));
     }
 }
 
 void generateWomenIndexes() {
     while (running) {
+        _myMutex->lock();
         if (women.size() < maxQueueSize) {
-            women.push_back(Student(true, &running, tables));
+            women.push_back(Student(true, &running, tables, _myMutex));
         }
+        _myMutex->unlock();
         this_thread::sleep_for(std::chrono::milliseconds(rand()%4000 + 1000));
     }
 }
@@ -71,9 +83,11 @@ void generateWomenIndexes() {
 // Execute once.
 void generateTables() {
     tables = new vector<Table>();
+    _myMutex->lock();
     for (int i = 0; i < tableSize; ++i) {
         tables->push_back(Table(i));
     }
+    _myMutex->unlock();
 }
 
 int main()
