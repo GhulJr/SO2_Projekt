@@ -1,37 +1,33 @@
 #pragma once
-#include <time.h>
-#include <cstdlib>
-#include "Student.cpp"
+#include "Table.h"
 
-struct Table {
-	int id;
-	Student *man;
-	Student *woman;
+Table::Table(int id){
+	srand(time(NULL));
+	this->id = id;
+	this->man = NULL;
+	this->woman = NULL;
+}
 
-	Table(int id) {
-		srand(time(NULL));
-		this->id = id;
-		this->man = NULL;
-		this->woman = NULL;
-	}
+bool Table::isManSpotFree()
+{
+	return man == nullptr;
+}
 
-	bool isManSpotFree() {
-		return man == NULL;
-	}
+bool Table::isWomanSpotFree()
+{
+	return woman == nullptr;
+}
 
-	bool isWomanSpotFree() {
-		return woman == NULL;
-	}
+int Table::getConvTime()
+{
+	return rand() % 10 + 1;
+}
 
-	int getConvTime() {
-		return rand() % 10 + 1;
-	}
-
-	bool compareWooers() {
-		if (man == NULL || woman == NULL)
-			return false;
-		if (man->pair_estimation >= woman->self_estimation && woman->pair_estimation >= man->self_estimation)
-			return true;
+bool Table::compareWooers()
+{
+	if (man == NULL || woman == NULL)
 		return false;
-	}
-};
+	if (man->pair_estimation >= woman->self_estimation && woman->pair_estimation >= man->self_estimation)
+		return true;
+	return false;
+}

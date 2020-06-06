@@ -3,9 +3,8 @@
 #include <mutex>
 #include <thread>
 #include <vector>
-#include "Student.cpp"
-#include "Table.cpp"
-#include "Finder.cpp"
+#include "Student.h"
+#include "Table.h"
 
 using namespace std;
 bool running = true;
@@ -54,7 +53,7 @@ void refreshScreen()
 void generateMenIndexes() {
     while (running) {
         if (men.size() < maxQueueSize) {
-            men.push_back(Student(true/*, *tables*/));
+            men.push_back(Student(false, &running, tables));
         }
         this_thread::sleep_for(std::chrono::milliseconds(rand()%2000 + 1000));
     }
@@ -63,9 +62,9 @@ void generateMenIndexes() {
 void generateWomenIndexes() {
     while (running) {
         if (women.size() < maxQueueSize) {
-            women.push_back(Student(false/*, *tables*/));
+            women.push_back(Student(true, &running, tables));
         }
-        this_thread::sleep_for(std::chrono::milliseconds(rand()%2000 + 1000));
+        this_thread::sleep_for(std::chrono::milliseconds(rand()%4000 + 1000));
     }
 }
 
