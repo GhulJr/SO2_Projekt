@@ -8,7 +8,7 @@
 
 using namespace std;
 bool running = true;
-int maxQueueSize = 1;
+int maxQueueSize = 10;
 int tableSize = 7;
 
 vector<Student> men, women;
@@ -34,9 +34,10 @@ void refreshScreen()
         for (int i = 0; i < tables->size(); i++)
         {
 
+           // _myMutex.lock();
             char y = tables->at(i).isManSpotFree() ? '.' : 'y';
             char x = tables->at(i).isWomanSpotFree() ? '.' : 'x';
-
+          //  _myMutex.unlock();
             cout << "|"<<y<<" "<<x<<"| ";
 
             if ((i + 1) % 4 == 0) {
@@ -52,28 +53,33 @@ void refreshScreen()
         cout << endl << "Current size:" << women.size() << endl;
 
         cout << "\n\nNacisnij ENTER, aby zakonczyc..";
-        this_thread::sleep_for(std::chrono::milliseconds(500));
+       // this_thread::sleep_for(std::chrono::milliseconds(20));
     }
 }
 
 // Generate students.
 void generateMenIndexes() {
     while (running) {
+       // _myMutex.lock();
         if (men.size() < maxQueueSize) {
-            men.push_back(Student(false, &running, tables, &_myMutex));
+            Student student(false, &running, tables, &_myMutex);
+            men.push_back(student);
+            student.startThread();
         }
-
+        //_myMutex.unlock();
         this_thread::sleep_for(std::chrono::milliseconds(rand()%2000 + 1000));
     }
 }
 
 void generateWomenIndexes() {
     while (running) {
-        _myMutex.lock();
-        if (women.size() < 0) {
-            women.push_back(Student(true, &running, tables, &_myMutex));
+        //_myMutex.lock();
+        if (women.size() < maxQueueSize) {
+            Student student(true, &running, tables, &_myMutex);
+            women.push_back(student);
+            student.startThread();
         }
-        _myMutex.unlock();
+        //_myMutex.unlock();
         this_thread::sleep_for(std::chrono::milliseconds(rand()%4000 + 1000));
     }
 }
@@ -81,11 +87,9 @@ void generateWomenIndexes() {
 // Execute once.
 void generateTables() {
     tables = new vector<Table>();
-    _myMutex.lock();
     for (int i = 0; i < tableSize; ++i) {
         tables->push_back(Table(i));
     }
-    _myMutex.unlock();
 }
 
 int main()
@@ -98,7 +102,6 @@ int main()
     thread drawer(refreshScreen);
     thread finisher(getInput);
 
-    thread tableGenerator(generateTables);
     thread menGenerator(generateMenIndexes);
     thread womenGenerator(generateWomenIndexes);
 
@@ -106,7 +109,6 @@ int main()
     //all threads join here
     drawer.join();
     finisher.join();
-    tableGenerator.join();
     menGenerator.join();
     womenGenerator.join();
 

@@ -1,0 +1,9 @@
+﻿  Student.cpp
+C:\Users\oskar\source\repos\SO2_Projekt\SO2_Projekt\Student.cpp(7,12): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
+C:\Users\oskar\source\repos\SO2_Projekt\SO2_Projekt\Student.cpp(59,34): warning C4101: "e": lokalna zmienna, do której nie istnieje odwołanie
+  Trwa generowanie kodu
+  4 of 256 functions ( 1.6%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  Zakończono generowanie kodu
+  SO2_Projekt.vcxproj -> C:\Users\oskar\source\repos\SO2_Projekt\x64\Release\SO2_Projekt.exe

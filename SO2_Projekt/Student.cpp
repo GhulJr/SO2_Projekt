@@ -23,8 +23,6 @@ Student::Student(bool gender, bool * running, std::vector<Table>* tables, std::m
 	}
 	self_estimation = rand() % moduloFactor + moduloAddjustment;
 	pair_estimation = rand() % moduloFactor + moduloAddjustment;
-	
-	std::thread t1 = std::thread(&Student::run, this);
 }
 
 
@@ -43,14 +41,14 @@ void Student::run()
 					std::lock_guard<std::mutex> lock(*this->_myMutex);
 					if (this->gender) {
 						if (this->tables->at(i).isWomanSpotFree()) {
-							std::lock_guard<std::mutex> lock(*this->_myMutex);
+						//	std::lock_guard<std::mutex> lock(*this->_myMutex);
 							this->tables->at(i).takeSeat(this);
 							break;
 						}
 					}
 					else {
 						if (this->tables->at(i).isManSpotFree()) {
-							std::lock_guard<std::mutex> lock(*this->_myMutex);
+						//	std::lock_guard<std::mutex> lock(*this->_myMutex);
 							this->tables->at(i).takeSeat(this);
 							break;
 						}
@@ -78,4 +76,8 @@ void Student::sendInvitation()
 void Student::acceptInvitation()
 {
 	this->waitingForPerson = false;
+}
+
+void Student::startThread() {
+	this->thread = new std::thread(&Student::run, this);
 }

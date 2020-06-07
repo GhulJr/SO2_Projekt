@@ -17,8 +17,8 @@ struct Student {
 
 	Table* currentTable;
 	std::vector<Table>* tables;
-	//std::mutex mtx;
 	std::mutex* _myMutex;
+	std::thread* thread;
 
 	Student(bool gender, bool * running, std::vector<Table>* tables, std::mutex* mutex);
 
@@ -26,6 +26,7 @@ struct Student {
 
 	void sendInvitation();
 	void acceptInvitation();
+	void startThread();
 
 
 private:
