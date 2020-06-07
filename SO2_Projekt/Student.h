@@ -8,13 +8,13 @@
 struct Table;
 
 struct Student {
-	int index;
+	bool tableAssigned;
 	int self_estimation;
 	int pair_estimation;
 	//True - studentka, false - student.
 	bool gender; 
 	bool* running;
-	bool* waiting;
+	bool waiting;
 
 	Table* currentTable;
 	std::vector<Table>* tables;

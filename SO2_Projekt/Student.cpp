@@ -2,9 +2,35 @@
 #include <vector>
 #include "Student.h"
 
+
+Student::Student(bool gender, bool * running, std::vector<Table>* tables, std::mutex* mutex) {
+	srand(time(NULL));
+	this->gender = gender;
+	this->running = running;
+	this->tables = tables;
+	this->_myMutex = mutex;
+	this->tableAssigned = false;
+	this->waiting = false;
+	this->currentTable = nullptr;
+
+	if (gender) {
+		moduloFactor = 3;
+		moduloAddjustment = 7;
+	}
+	else {
+		moduloFactor = 10;
+		moduloAddjustment = 1;
+	}
+	self_estimation = rand() % moduloFactor + moduloAddjustment;
+	pair_estimation = rand() % moduloFactor + moduloAddjustment;
+	
+	std::thread t1 = std::thread(&Student::run, this);
+}
+
+
 void Student::run()
 {
-	while (this->currentTable == nullptr) {
+	while (!this->tableAssigned) {
 		if (!this->running) {
 			break;
 		}
@@ -13,10 +39,11 @@ void Student::run()
 		{
 			try
 			{
-				std::lock_guard<std::mutex> lock(*_myMutex);
+				std::lock_guard<std::mutex> lock(*this->_myMutex);
 				if (this->gender) {
 					if (this->tables->at(i).isWomanSpotFree()) {
 						this->tables->at(i).woman = this;
+						this->tableAssigned = true;
 
 						// ktos juz jest przy stoliku
 						if (!this->tables->at(i).isManSpotFree()) {
@@ -50,6 +77,7 @@ void Student::run()
 				}
 				else {
 					if (this->tables->at(i).isManSpotFree()) {
+						this->tableAssigned = true;
 						this->tables->at(i).man = this;
 						if (!this->tables->at(i).isWomanSpotFree()) {
 							int time = this->tables->at(i).getConvTime();
@@ -90,34 +118,12 @@ void Student::run()
 	}
 }
 
-Student::Student(bool gender, bool * runnning, std::vector<Table>* tables, std::mutex* mutex) {
-	srand(time(NULL));
-	this->gender = gender;
-	this->running = running;
-	this->tables = tables;
-	this->_myMutex = mutex;
-
-	if (gender) {
-		moduloFactor = 3;
-		moduloAddjustment = 7;
-	}
-	else {
-		moduloFactor = 10;
-		moduloAddjustment = 1;
-	}
-	self_estimation = rand() % moduloFactor + moduloAddjustment;
-	pair_estimation = rand() % moduloFactor + moduloAddjustment;
-	
-	std::thread t1 = std::thread(&Student::run, this);
-}
-
-
 void Student::sendInvitation()
 {
-	*this->waiting = true;
+	this->waiting = true;
 }
 
 void Student::acceptInvitation()
 {
-	*this->waiting = false;
+	this->waiting = false;
 }

@@ -1,5 +1,7 @@
-﻿  Student.cpp
-C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\Student.cpp(12,21): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\Student.cpp(83,34): warning C4101: "e": lokalna zmienna, do której nie istnieje odwołanie
-C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\Student.cpp(94,12): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
+﻿  SO2_Projekt.cpp
+C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\SO2_Projekt.cpp(28,27): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\SO2_Projekt.cpp(34,27): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\SO2_Projekt.cpp(48,27): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\SO2_Projekt.cpp(62,24): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\krzys\source\repos\SO2_Projekt\SO2_Projekt\SO2_Projekt.cpp(73,26): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
   SO2_Projekt.vcxproj -> C:\Users\krzys\source\repos\SO2_Projekt\Debug\SO2_Projekt.exe
