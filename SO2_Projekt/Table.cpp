@@ -33,16 +33,16 @@ bool Table::compareWooers()
 }
 
 void Table::takeSeat(Student* student) {
-	student->tableAssigned = true;
-	student->waitingForPerson = true;
 	if (student->gender) {
 		woman = student;
 	}
 	else {
 		man = student;
 	}
+	student->tableAssigned = true;
+	student->waitingForPerson = true;
 	if (man != nullptr && woman != nullptr) {
 		woman->waitingForPerson = false;
-		man->waitingForPerson = false;
+		man->waitingForPerson = false;		
 	}
 }

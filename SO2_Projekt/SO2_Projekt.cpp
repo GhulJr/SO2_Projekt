@@ -8,10 +8,12 @@
 
 using namespace std;
 bool running = true;
-int maxQueueSize = 10;
-int tableSize = 7;
+int maxQueueSize = 8;
+int tableSize = 4;
+int manIndex = 0;
+int womanIndex = 0;
 
-vector<Student> men, women;
+vector<Student*> men, women;
 vector<Table>* tables;
 
 std::mutex _myMutex;
@@ -25,12 +27,15 @@ void refreshScreen()
 {
     while (running) {
         system("cls");
+        cout << "Studenci:";
         for (int i = 0; i < men.size(); i++)
         {
-            cout << "y, ";
+            if (!men.at(i)->tableAssigned)
+                cout << "y, ";
         }
-        cout << endl << "Current size:" << men.size() << endl << endl;
-
+        //cout << endl << "Current size:" << men.size() << endl << endl;
+        cout << endl << endl;
+        cout << "Stoliki:"<< endl;
         for (int i = 0; i < tables->size(); i++)
         {
 
@@ -45,12 +50,13 @@ void refreshScreen()
             }
         }
         cout << endl << endl;
-
+        cout << "Studentki:";
         for (int i = 0; i < women.size(); i++)
         {
-            cout << "x, ";
+            if (!women.at(i)->tableAssigned)
+                cout << "x, ";
         }
-        cout << endl << "Current size:" << women.size() << endl;
+       // cout << endl << "Current size:" << women.size() << endl;
 
         cout << "\n\nNacisnij ENTER, aby zakonczyc..";
        // this_thread::sleep_for(std::chrono::milliseconds(20));
@@ -60,27 +66,29 @@ void refreshScreen()
 // Generate students.
 void generateMenIndexes() {
     while (running) {
-       // _myMutex.lock();
         if (men.size() < maxQueueSize) {
-            Student student(false, &running, tables, &_myMutex);
+            _myMutex.lock();
+            Student *student = new Student(manIndex, false, &running, tables, &_myMutex);
             men.push_back(student);
-            student.startThread();
+            student->startThread();
+            ++manIndex;
+            _myMutex.unlock();
         }
-        //_myMutex.unlock();
-        this_thread::sleep_for(std::chrono::milliseconds(rand()%3000 + 1000));
+        this_thread::sleep_for(std::chrono::milliseconds(rand()%500 + 1000));
     }
 }
 
 void generateWomenIndexes() {
     while (running) {
-        //_myMutex.lock();
         if (women.size() < maxQueueSize) {
-            Student student(true, &running, tables, &_myMutex);
+            _myMutex.lock();
+            Student* student = new Student(manIndex, true, &running, tables, &_myMutex);
             women.push_back(student);
-            student.startThread();
+            student->startThread();
+            ++womanIndex;
+            _myMutex.unlock();
         }
-        //_myMutex.unlock();
-        this_thread::sleep_for(std::chrono::milliseconds(rand()%5000 + 1000));
+        this_thread::sleep_for(std::chrono::milliseconds(rand()%1500 + 1000));
     }
 }
 
@@ -89,6 +97,26 @@ void generateTables() {
     tables = new vector<Table>();
     for (int i = 0; i < tableSize; ++i) {
         tables->push_back(Table(i));
+    }
+}
+
+void threadManager() {
+    while (running) {
+        for (int i = 0; i < women.size(); ++i) {
+            std::lock_guard<std::mutex> lock(_myMutex);
+            if (women.at(i)->dateFinshed) {
+                women.at(i)->thread->join();
+                women.erase(women.begin() + i);
+            }
+        }
+
+        for (int i = 0; i < men.size(); ++i) {
+            std::lock_guard<std::mutex> lock(_myMutex);
+            if (men.at(i)->dateFinshed) {
+                men.at(i)->thread->join();
+                men.erase(men.begin() + i);
+            }
+        }
     }
 }
 
@@ -104,6 +132,9 @@ int main()
 
     thread menGenerator(generateMenIndexes);
     thread womenGenerator(generateWomenIndexes);
+    thread manager(threadManager);
+
+
 
 
     //all threads join here
@@ -111,6 +142,7 @@ int main()
     finisher.join();
     menGenerator.join();
     womenGenerator.join();
+    manager.join();
 
     cout << "Leaving...";
 

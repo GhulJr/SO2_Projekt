@@ -8,6 +8,8 @@
 struct Table;
 
 struct Student {
+	int index;
+
 	bool tableAssigned;
 	int self_estimation;
 	int pair_estimation;
@@ -15,17 +17,19 @@ struct Student {
 	bool* running;
 	bool waitingForPerson;
 
+	bool dateFinshed;
+
 	Table* currentTable;
 	std::vector<Table>* tables;
 	std::mutex* _myMutex;
 	std::thread* thread;
 
-	Student(bool gender, bool * running, std::vector<Table>* tables, std::mutex* mutex);
+	Student(int index, bool gender, bool * running, std::vector<Table>* tables, std::mutex* mutex);
 
 	void run();
 
-	void sendInvitation();
-	void acceptInvitation();
+	//void sendInvitation();
+//	void acceptInvitation();
 	void startThread();
 
 
