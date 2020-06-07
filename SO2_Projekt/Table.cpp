@@ -43,8 +43,6 @@ void Table::takeSeat(Student* student) {
 	}
 	if (man != nullptr && woman != nullptr) {
 		woman->waitingForPerson = false;
-		woman = nullptr;
 		man->waitingForPerson = false;
-		man = nullptr;
 	}
 }

@@ -67,7 +67,7 @@ void generateMenIndexes() {
             student.startThread();
         }
         //_myMutex.unlock();
-        this_thread::sleep_for(std::chrono::milliseconds(rand()%2000 + 1000));
+        this_thread::sleep_for(std::chrono::milliseconds(rand()%3000 + 1000));
     }
 }
 
@@ -80,7 +80,7 @@ void generateWomenIndexes() {
             student.startThread();
         }
         //_myMutex.unlock();
-        this_thread::sleep_for(std::chrono::milliseconds(rand()%4000 + 1000));
+        this_thread::sleep_for(std::chrono::milliseconds(rand()%5000 + 1000));
     }
 }
 

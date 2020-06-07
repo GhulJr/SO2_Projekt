@@ -39,10 +39,12 @@ void Student::run()
 				try
 				{
 					std::lock_guard<std::mutex> lock(*this->_myMutex);
+
 					if (this->gender) {
 						if (this->tables->at(i).isWomanSpotFree()) {
 						//	std::lock_guard<std::mutex> lock(*this->_myMutex);
 							this->tables->at(i).takeSeat(this);
+							this->currentTable = &this->tables->at(i);
 							break;
 						}
 					}
@@ -50,6 +52,7 @@ void Student::run()
 						if (this->tables->at(i).isManSpotFree()) {
 						//	std::lock_guard<std::mutex> lock(*this->_myMutex);
 							this->tables->at(i).takeSeat(this);
+							this->currentTable = &this->tables->at(i);
 							break;
 						}
 					}
@@ -61,8 +64,14 @@ void Student::run()
 			}
 		} 
 		else if (!this->waitingForPerson) {
-			std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 			//TODO: clear student from table.
+			if (this->gender) {
+				this->currentTable->woman = nullptr;
+			}
+			else {
+				this->currentTable->man = nullptr;
+			}
 			break;
 		}
 	}
