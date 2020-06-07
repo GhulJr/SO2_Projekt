@@ -10,7 +10,7 @@ Student::Student(bool gender, bool * running, std::vector<Table>* tables, std::m
 	this->tables = tables;
 	this->_myMutex = mutex;
 	this->tableAssigned = false;
-	this->waiting = false;
+	this->waitingForPerson = false;
 	this->currentTable = nullptr;
 
 	if (gender) {
@@ -42,69 +42,16 @@ void Student::run()
 				std::lock_guard<std::mutex> lock(*this->_myMutex);
 				if (this->gender) {
 					if (this->tables->at(i).isWomanSpotFree()) {
-						this->tables->at(i).woman = this;
-						this->tableAssigned = true;
-
-						// ktos juz jest przy stoliku
-						if (!this->tables->at(i).isManSpotFree()) {
-							int time = this->tables->at(i).getConvTime();
-
-							// wyslij wiadomosc do czekajcej drugiej osoby 
-							this->tables->at(i).man->acceptInvitation();
-
-							// wait
-							std::this_thread::sleep_for(std::chrono::seconds(5));
-
-							// clear table
-							this->tables->at(i).woman = nullptr;
-
-							// kill this thread
-							break;
-						}
-
-						// czekamy na drug¹ osobê
-						else {
-							this->sendInvitation();
-							while (this->waiting) {};
-
-							//rozpoczyna sie konwersacja 
-							std::this_thread::sleep_for(std::chrono::seconds(5));
-							this->tables->at(i).woman = nullptr;
-
-							break;
-						}
+						std::lock_guard<std::mutex> lock(*this->_myMutex);
+						this->tables->at(i).takeSeat(this);
+						break;
 					}
 				}
 				else {
 					if (this->tables->at(i).isManSpotFree()) {
-						this->tableAssigned = true;
-						this->tables->at(i).man = this;
-						if (!this->tables->at(i).isWomanSpotFree()) {
-							int time = this->tables->at(i).getConvTime();
-
-							// wyslij wiadomosc do czekajcej drugiej osoby 
-							this->tables->at(i).woman->acceptInvitation();
-
-							// wait
-							std::this_thread::sleep_for(std::chrono::seconds(5));
-
-							// clear table
-							this->tables->at(i).man = nullptr;
-
-							// kill this thread
-							break;
-						}
-
-						// czekamy na drug¹ osobê
-						else {
-							this->sendInvitation();
-							while (this->waiting) {};
-
-							//rozpoczyna sie konwersacja 
-							std::this_thread::sleep_for(std::chrono::seconds(5));
-							this->tables->at(i).man = nullptr;
-							break;
-						}
+						std::lock_guard<std::mutex> lock(*this->_myMutex);
+						this->tables->at(i).takeSeat(this);
+						break;
 					}
 				}
 			}
@@ -120,10 +67,10 @@ void Student::run()
 
 void Student::sendInvitation()
 {
-	this->waiting = true;
+	this->waitingForPerson = true;
 }
 
 void Student::acceptInvitation()
 {
-	this->waiting = false;
+	this->waitingForPerson = false;
 }

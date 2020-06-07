@@ -11,10 +11,9 @@ struct Student {
 	bool tableAssigned;
 	int self_estimation;
 	int pair_estimation;
-	//True - studentka, false - student.
-	bool gender; 
+	bool gender;			//true - studentka, false - student.
 	bool* running;
-	bool waiting;
+	bool waitingForPerson;
 
 	Table* currentTable;
 	std::vector<Table>* tables;

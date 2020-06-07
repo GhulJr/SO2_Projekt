@@ -4,8 +4,8 @@
 Table::Table(int id){
 	srand(time(NULL));
 	this->id = id;
-	this->man = NULL;
-	this->woman = NULL;
+	this->man = nullptr;
+	this->woman = nullptr;
 }
 
 bool Table::isManSpotFree()
@@ -25,9 +25,24 @@ int Table::getConvTime()
 
 bool Table::compareWooers()
 {
-	if (man == NULL || woman == NULL)
+	if (man == nullptr || woman == nullptr)
 		return false;
 	if (man->pair_estimation >= woman->self_estimation && woman->pair_estimation >= man->self_estimation)
 		return true;
 	return false;
+}
+
+void Table::takeSeat(Student* student) {
+	student->tableAssigned = true;
+	student->waitingForPerson = true;
+	if (student->gender) {
+		woman = student;
+	}
+	else {
+		man = student;
+	}
+	if (man != nullptr && woman != nullptr) {
+		woman->waitingForPerson = false;
+		man->waitingForPerson = false;
+	}
 }

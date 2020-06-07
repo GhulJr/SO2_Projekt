@@ -19,4 +19,6 @@ struct Table {
 	int getConvTime();
 
 	bool compareWooers();
+
+	void takeSeat(Student* student);
 };
