@@ -8,7 +8,7 @@
 
 using namespace std;
 bool running = true;
-int maxQueueSize = 10;
+int maxQueueSize = 1;
 int tableSize = 7;
 
 vector<Student> men, women;
@@ -70,7 +70,7 @@ void generateMenIndexes() {
 void generateWomenIndexes() {
     while (running) {
         _myMutex.lock();
-        if (women.size() < maxQueueSize) {
+        if (women.size() < 0) {
             women.push_back(Student(true, &running, tables, &_myMutex));
         }
         _myMutex.unlock();

@@ -30,38 +30,43 @@ Student::Student(bool gender, bool * running, std::vector<Table>* tables, std::m
 
 void Student::run()
 {
-	while (!this->tableAssigned) {
+	while (true) {
 		if (!this->running) {
 			break;
 		}
-
-		for (int i = 0; i < this->tables->size(); i++)
-		{
-			try
+		
+		if (!this->tableAssigned) {
+			for (int i = 0; i < this->tables->size(); i++)
 			{
-				std::lock_guard<std::mutex> lock(*this->_myMutex);
-				if (this->gender) {
-					if (this->tables->at(i).isWomanSpotFree()) {
-						std::lock_guard<std::mutex> lock(*this->_myMutex);
-						this->tables->at(i).takeSeat(this);
-						break;
+				try
+				{
+					std::lock_guard<std::mutex> lock(*this->_myMutex);
+					if (this->gender) {
+						if (this->tables->at(i).isWomanSpotFree()) {
+							std::lock_guard<std::mutex> lock(*this->_myMutex);
+							this->tables->at(i).takeSeat(this);
+							break;
+						}
+					}
+					else {
+						if (this->tables->at(i).isManSpotFree()) {
+							std::lock_guard<std::mutex> lock(*this->_myMutex);
+							this->tables->at(i).takeSeat(this);
+							break;
+						}
 					}
 				}
-				else {
-					if (this->tables->at(i).isManSpotFree()) {
-						std::lock_guard<std::mutex> lock(*this->_myMutex);
-						this->tables->at(i).takeSeat(this);
-						break;
-					}
+				catch (const std::exception& e)
+				{
+
 				}
 			}
-			catch (const std::exception & e)
-			{
-
-			}
+		} 
+		else if (!this->waitingForPerson) {
+			std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+			//TODO: clear student from table.
+			break;
 		}
-
-
 	}
 }
 
