@@ -11,12 +11,9 @@ struct Student {
 	int index;
 
 	bool tableAssigned;
-	int self_estimation;
-	int pair_estimation;
 	bool gender;			//true - studentka, false - student.
 	bool* running;
 	bool waitingForPerson;
-
 	bool dateFinshed;
 
 	Table* currentTable;

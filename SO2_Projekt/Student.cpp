@@ -23,8 +23,6 @@ Student::Student(int index, bool gender, bool * running, std::vector<Table>* tab
 		moduloFactor = 10;
 		moduloAddjustment = 1;
 	}
-	self_estimation = rand() % moduloFactor + moduloAddjustment;
-	pair_estimation = rand() % moduloFactor + moduloAddjustment;
 }
 
 

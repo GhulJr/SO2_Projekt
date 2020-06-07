@@ -23,15 +23,6 @@ int Table::getConvTime()
 	return rand() % 10 + 1;
 }
 
-bool Table::compareWooers()
-{
-	if (man == nullptr || woman == nullptr)
-		return false;
-	if (man->pair_estimation >= woman->self_estimation && woman->pair_estimation >= man->self_estimation)
-		return true;
-	return false;
-}
-
 void Table::takeSeat(Student* student) {
 	if (student->gender) {
 		woman = student;
